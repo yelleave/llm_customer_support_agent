@@ -1,0 +1,17 @@
+# Core agent framework
+langgraph
+langchain
+langchain-community
+
+# LLM embeddings (OSS)
+sentence-transformers
+
+# Vector store (local demo)
+faiss-cpu
+
+# Web API
+fastapi
+uvicorn
+
+# Environment config
+python-dotenv
