@@ -24,9 +24,14 @@ def agent_node(state: SupportState):
     result = llm.invoke(prompt).content
     parsed = json.loads(result)
 
+    action = parsed["action"]
+    response = None
+    if action == "respond":
+        response = parsed.get("message") or parsed.get("response")
+
     return {
-        "next_action": parsed["action"],
-        "response": parsed.get("response"),
+        "next_action": action,
+        "response": response,
         "tool_args": parsed.get("tool_args"),
     }
 
@@ -51,7 +56,7 @@ graph.set_entry_point("rag")
 graph.add_edge("rag", "agent")
 graph.add_conditional_edges(
     "agent",
-    lambda s: s["import next_action"],
+    lambda s: s["next_action"],
     {
         "use_tool": "tools",
         "retrieve_more": "rag",
